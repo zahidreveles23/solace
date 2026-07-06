@@ -1,0 +1,23 @@
+{
+  "name": "solace",
+  "version": "1.0.0",
+  "description": "Mental health support powered by AI. Your refuge for healing.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@anthropic-ai/sdk": "^0.28.0",
+    "@stripe/stripe-js": "^3.0.0",
+    "stripe": "^14.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}
