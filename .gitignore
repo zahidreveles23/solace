@@ -3,3 +3,8 @@
 !.env.example
 node_modules/
 .next/
+
+# secret download pages for the store (regenerate with products/build_store_downloads.py)
+products/store/get/
+products/store-tokens.json
+products/store.zip

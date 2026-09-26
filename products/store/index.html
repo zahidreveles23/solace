@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simple Money Sheets | Spreadsheets for side hustles and debt payoff</title>
+<meta name="description" content="Ready-made Excel and Google Sheets templates: track side-hustle income and taxes, and plan your debt payoff. Instant download.">
+<link rel="stylesheet" href="style.css">
+<script>
+  // ====== EDIT THESE THREE LINKS after creating Stripe Payment Links ======
+  const PAYMENT_LINKS = {
+    hustle: "",   // e.g. https://buy.stripe.com/xxxx  (Side Hustle Income & Tax Tracker, $9.99)
+    debt:   "",   // Debt Payoff Planner, $9.99
+    bundle: ""    // Both, $14.99
+  };
+  const CONTACT_EMAIL = "";  // e.g. hello@yourdomain.com
+  // =========================================================================
+</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="#">Simple Money <span>Sheets</span></a>
+  <nav><a href="#hustle">Income &amp; Tax</a><a href="#debt">Debt Payoff</a><a href="#faq">FAQ</a></nav>
+</div></header>
+
+<section class="hero wrap">
+  <h1>Know where your money goes.<br>Without the spreadsheet headache.</h1>
+  <p>Ready-made templates that do the math for you. Type in your numbers and get clear answers in minutes.</p>
+  <div class="pills"><span>Excel + Google Sheets</span><span>Instant download</span><span>One-time price, no subscription</span></div>
+</section>
+
+<main class="wrap">
+  <article class="product" id="hustle">
+    <div class="gallery" data-set="hustle"></div>
+    <div class="info">
+      <h2>Side Hustle Income &amp; Tax Tracker</h2>
+      <div class="price">$9.99 <small>one-time</small></div>
+      <p>See your real profit and exactly how much to set aside for taxes from every payment.</p>
+      <ul>
+        <li>Dashboard with monthly income, expenses and take-home pay</li>
+        <li>Self-employment and income tax estimate, with quarterly payment amounts</li>
+        <li>Income, expense and mileage logs with dropdown categories</li>
+        <li>Deductible amounts and mileage deductions calculated for you</li>
+        <li>Monthly goal tracking and spending-by-category chart</li>
+      </ul>
+      <a class="buy" data-buy="hustle">Buy now</a>
+      <p class="fine">Secure checkout by Stripe · Instant download after payment</p>
+    </div>
+  </article>
+
+  <article class="product" id="debt">
+    <div class="gallery" data-set="debt"></div>
+    <div class="info">
+      <h2>Debt Payoff Planner</h2>
+      <div class="price">$9.99 <small>one-time</small></div>
+      <p>Get your debt-free date and a month-by-month plan. Compare snowball and avalanche to see which saves you more.</p>
+      <ul>
+        <li>Debt-free date, total interest and total cost</li>
+        <li>"What to pay this month" for every debt</li>
+        <li>Snowball vs avalanche comparison, with interest saved</li>
+        <li>Payoff order and date for each debt</li>
+        <li>Up to 10 debts, projected up to 30 years</li>
+      </ul>
+      <a class="buy" data-buy="debt">Buy now</a>
+      <p class="fine">Secure checkout by Stripe · Instant download after payment</p>
+    </div>
+  </article>
+
+  <section class="bundle">
+    <div><h2>Get both and save</h2><p>Side Hustle Income &amp; Tax Tracker + Debt Payoff Planner</p></div>
+    <div style="text-align:right"><div class="price"><s>$19.98</s>$14.99</div><a class="buy" data-buy="bundle">Buy the bundle</a></div>
+  </section>
+
+  <section class="faq" id="faq">
+    <h2>Questions</h2>
+    <details><summary>What do I get?</summary><p>An .xlsx spreadsheet file, available to download right after checkout. No physical item is shipped.</p></details>
+    <details><summary>Does it work in Google Sheets? Mac? Phone?</summary><p>Yes. It works in Microsoft Excel (Windows, Mac and web) and Google Sheets. Upload it to Google Drive and open it with Google Sheets. Editing is easiest on a computer; viewing works on phones.</p></details>
+    <details><summary>Do I need spreadsheet skills?</summary><p>No. Every template has a Start Here tab. You only type in the yellow cells, and all the formulas are already built.</p></details>
+    <details><summary>Is this tax or financial advice?</summary><p>No. The tax and payoff figures are estimates for planning. Confirm final tax amounts with a tax professional.</p></details>
+    <details><summary>Refunds?</summary><p>Because these are instant digital downloads, sales are final. If a file won't open or something looks wrong, contact us and we'll make it right.</p></details>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p>© <span id="yr"></span> Simple Money Sheets · <span id="contact"></span></p>
+  <p>Templates provide estimates for planning purposes only and are not tax, legal or financial advice.</p>
+</div></footer>
+
+<script>
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  document.getElementById("contact").textContent = CONTACT_EMAIL ? "Contact: " + CONTACT_EMAIL : "";
+  document.querySelectorAll("[data-buy]").forEach(function (a) {
+    var link = PAYMENT_LINKS[a.dataset.buy];
+    if (link) { a.href = link; } else { a.classList.add("off"); a.textContent = "Coming soon"; }
+  });
+  document.querySelectorAll(".gallery").forEach(function (g) {
+    var set = g.dataset.set, main = document.createElement("img"), thumbs = document.createElement("div");
+    main.className = "main"; main.src = "img/" + set + "-1.jpg"; main.alt = "Template preview";
+    thumbs.className = "thumbs";
+    for (var i = 1; i <= 4; i++) (function (i) {
+      var t = document.createElement("img"); t.src = "img/" + set + "-" + i + ".jpg"; t.alt = "Preview " + i; t.loading = "lazy";
+      if (i === 1) t.className = "on";
+      t.onclick = function () { main.src = t.src; thumbs.querySelectorAll("img").forEach(function (x) { x.className = ""; }); t.className = "on"; };
+      thumbs.appendChild(t);
+    })(i);
+    g.appendChild(main); g.appendChild(thumbs);
+  });
+</script>
+</body>
+</html>
