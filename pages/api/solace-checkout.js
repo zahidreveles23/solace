@@ -1,44 +1,40 @@
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+import { stripe } from "../../lib/stripe";
+import { readSession } from "../../lib/session";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { userId } = req.body;
+  const { cid } = readSession(req);
+  const baseUrl = process.env.NEXT_PUBLIC_URL;
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      mode: "subscription",
       line_items: [
         {
           price_data: {
             currency: "usd",
             product_data: {
               name: "Solace Pro",
-              description: "Unlimited mental health support",
+              description: "Unlimited conversations with your Solace coach",
             },
             unit_amount: 2000,
-            recurring: {
-              interval: "month",
-            },
+            recurring: { interval: "month" },
           },
           quantity: 1,
         },
       ],
-      mode: "subscription",
-      success_url: `${process.env.NEXT_PUBLIC_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}`,
-      metadata: {
-        userId: userId,
-      },
+      ...(cid ? { customer: cid } : {}),
+      allow_promotion_codes: true,
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/pricing`,
     });
 
-    res.status(200).json({ sessionId: session.id });
+    res.status(200).json({ url: session.url });
   } catch (error) {
     console.error("Error creating checkout:", error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Could not start checkout" });
   }
 }

@@ -1,34 +1,23 @@
-import Image from "next/image";
 import Link from "next/link";
 
-function Feature({
-  title,
-  body,
-  to,
-  tag,
-}: {
-  title: string;
-  body: string;
-  to: string;
-  tag: string;
-}) {
+function Feature({ title, body, to, tag }) {
   return (
     <Link
       href={to}
       className="group rounded-3xl border border-white/10 bg-white/5 p-6 transition hover:-translate-y-1 hover:bg-white/10"
     >
       <div className="flex items-center justify-between">
-        <span className="text-xs uppercase tracking-widest text-primary">
+        <span className="text-xs uppercase tracking-widest text-purple-400">
           {tag}
         </span>
-        <span className="text-muted-foreground group-hover:text-white">
+        <span className="text-gray-400 group-hover:text-white">
           →
         </span>
       </div>
 
       <h3 className="mt-8 text-2xl font-semibold">{title}</h3>
 
-      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+      <p className="mt-2 text-sm text-gray-400 leading-relaxed">
         {body}
       </p>
     </Link>
@@ -36,13 +25,7 @@ function Feature({
 }
 
 
-function Bubble({
-  side,
-  children,
-}: {
-  side: "in" | "out";
-  children: React.ReactNode;
-}) {
+function Bubble({ side, children }) {
   const isOut = side === "out";
 
   return (
@@ -68,12 +51,7 @@ export default function Home() {
       {/* HERO */}
       <section className="relative">
 
-        <Image
-          src="/aurora.jpg"
-          alt=""
-          fill
-          className="absolute inset-0 object-cover opacity-40"
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(168,85,247,0.35),_transparent_60%),radial-gradient(ellipse_at_bottom_right,_rgba(236,72,153,0.25),_transparent_55%)]" />
 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black" />
 
@@ -104,7 +82,7 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap justify-center gap-4">
 
             <Link
-              href="/signin"
+              href="/chat"
               className="rounded-full bg-purple-600 px-6 py-3 font-medium text-white hover:bg-purple-500"
             >
               Begin your practice
@@ -122,7 +100,7 @@ export default function Home() {
 
 
           <p className="mt-8 text-xs uppercase tracking-widest text-gray-500">
-            Private · End-to-end encrypted · No ads, ever
+            Private · Not a replacement for therapy · No ads, ever
           </p>
 
         </div>
@@ -133,13 +111,9 @@ export default function Home() {
 
           <div className="overflow-hidden rounded-3xl border border-white/10">
 
-            <Image
-              src="/orb.jpg"
-              alt="Solace"
-              width={1200}
-              height={800}
-              className="w-full object-cover"
-            />
+            <div className="flex aspect-[3/2] items-center justify-center bg-gradient-to-br from-purple-900/40 via-black to-pink-900/30">
+              <div className="h-48 w-48 animate-pulse rounded-full bg-gradient-to-br from-purple-400 to-pink-500 opacity-80 blur-sm" />
+            </div>
 
           </div>
 

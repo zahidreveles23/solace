@@ -1,39 +1,43 @@
-import Stripe from "stripe";
+import { stripe, forgetSubscription } from "../../lib/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Stripe signs the raw request body, so Next's JSON parser must be off.
+export const config = { api: { bodyParser: false } };
+
+async function rawBody(req) {
+  const chunks = [];
+  for await (const chunk of req) chunks.push(chunk);
+  return Buffer.concat(chunks);
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const sig = req.headers["stripe-signature"];
-  let body;
-
-  if (typeof req.body === "string") {
-    body = req.body;
-  } else {
-    body = JSON.stringify(req.body);
-  }
-
   let event;
-
   try {
     event = stripe.webhooks.constructEvent(
-      body,
-      sig,
+      await rawBody(req),
+      req.headers["stripe-signature"],
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
     return res.status(400).json({ error: `Webhook Error: ${err.message}` });
   }
 
-  if (event.type === "customer.subscription.created") {
-    console.log("New subscription:", event.data.object.id);
-  }
-
-  if (event.type === "customer.subscription.deleted") {
-    console.log("Subscription cancelled:", event.data.object.id);
+  switch (event.type) {
+    case "customer.subscription.created":
+    case "customer.subscription.updated":
+    case "customer.subscription.deleted": {
+      const sub = event.data.object;
+      forgetSubscription(sub.customer);
+      console.log(`Subscription ${sub.id} ${event.type.split(".").pop()}: ${sub.status}`);
+      break;
+    }
+    case "invoice.payment_failed":
+      forgetSubscription(event.data.object.customer);
+      console.log("Payment failed for customer:", event.data.object.customer);
+      break;
   }
 
   res.status(200).json({ received: true });
