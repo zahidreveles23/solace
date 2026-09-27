@@ -1,0 +1,19 @@
+{
+  "name": "nudgely",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Get more Google reviews for local businesses",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "postgres": "^3.4.0",
+    "qrcode": "^1.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "stripe": "^14.0.0"
+  }
+}
